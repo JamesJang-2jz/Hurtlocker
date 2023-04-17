@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
+    int errors = 0;
 
     public String readRawDataToString() throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
@@ -19,7 +20,6 @@ public class Main {
     public static  Map<String, Map<String,Integer>> splitToMap(String input) { // Split and use regex to add item to map
         Map<String,Map<String,Integer>> finalMap = new HashMap<>();
         int errorCount = 0;
-//        ;price:([\d.]+);type:([^;]+);expiration:(\d{1,2}/\d{1,2}/\d{4})
         Pattern regex = Pattern.compile("\\b(\\w+):([^\\s;]+)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(input);
         while (matcher.find()){
@@ -52,48 +52,8 @@ public class Main {
             System.out.println(sb2);
             System.out.println("-------------         -------------");
         }
-
     }
-//        Pattern regex = Pattern.compile(pattern);
-//        // Create a map to store the grocery items and their counts
-//        Map<String, Map<String, Integer>> groceryMap = new HashMap<>();
-//
-//        // Iterate through each item in the list
-//        for (String item : itemList) {
-//            Matcher matcher = regex.matcher(item);
-//            if (matcher.find()) {
-//                String name = matcher.group(1).toLowerCase();
-//                String price = matcher.group(2);
-//                // Add item to map or update its count
-//                if (!groceryMap.containsKey(name)) {
-//                    Map<String, Integer> priceMap = new HashMap<>();
-//                    priceMap.put(price, 1);
-//                    groceryMap.put(name, priceMap);
-//                } else {
-//                    Map<String, Integer> priceMap = groceryMap.get(name);
-//                    if (!priceMap.containsKey(price)) {
-//                        priceMap.put(price, 1);
-//                    } else {
-//                        int count = priceMap.get(price);
-//                        priceMap.put(price, count + 1);
-//                    }
-//                }
-//            } else {
-//                // Handle any errors in input
-//                if (!groceryMap.containsKey("Errors")) {
-//                    Map<String, Integer> errorMap = new HashMap<>();
-//                    errorMap.put("1", 1);
-//                    groceryMap.put("Errors", errorMap);
-//                } else {
-//                    Map<String, Integer> errorMap = groceryMap.get("Errors");
-//                    int count = errorMap.getOrDefault("1", 0);
-//                    errorMap.put("1", count + 1);
-//                }
-//            }
-//        }
-//        // Print the grocery items and their counts
-//        return result;
-//    }
+
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
         Map<String, Map<String,Integer>> mappy = splitToMap(output);
