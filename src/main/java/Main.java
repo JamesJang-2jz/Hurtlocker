@@ -20,20 +20,24 @@ public class Main {
     public static  Map<String, Map<String,Integer>> splitToMap(String input) { // Split and use regex to add item to map
         Map<String,Map<String,Integer>> finalMap = new HashMap<>();
         int errorCount = 0;
-        Pattern regex = Pattern.compile("\\b(\\w+):([^\\s;]+)", Pattern.CASE_INSENSITIVE);
+        Pattern regex = Pattern.compile("\\b(name|price):([^\\s;]+)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(input);
-        while (matcher.find()){
-            String name = matcher.group(1);
+        while (matcher.find()) {
+            String name = matcher.group(1).toLowerCase();
             String value = matcher.group(2);
-            if (!finalMap.containsKey(name)){
-                finalMap.put(name, new HashMap<>());
+            if (!finalMap.containsKey(name)) {
+                Map<String, Integer> priceMap = new HashMap<>();
+                priceMap.put(value,1);
+                finalMap.put(name, priceMap);
+            } else if (!finalMap.get(name).containsKey(value)){
+                Map<String, Integer> priceMap = finalMap.get(name);
+                priceMap.put(value,1);
+                } else if (finalMap.get(name).containsKey(value)){
+                Map<String, Integer> priceMap = finalMap.get(name);
+                    priceMap.put(value, priceMap.get(value) + 1);
+                } else if (value == null){
+                errorCount++;
             }
-            Map<String, Integer> priceMap = finalMap.get(name);
-            if (!priceMap.containsKey(value)){
-                priceMap.put(value, 0);
-            }
-            priceMap.put(value, priceMap.get(value) + 1);
-            if ()
         }
         return finalMap;
     }
