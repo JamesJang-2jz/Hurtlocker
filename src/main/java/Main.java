@@ -23,12 +23,12 @@ public class Main {
         Matcher matcher = regex.matcher(input);
         while (matcher.find()) {
             String name = matcher.group(1).toLowerCase();
-            String price = matcher.group(2).toLowerCase();
+            String price = matcher.group(2);
             if (!finalMap.containsKey(name)) {
                 Map<String, Integer> priceMap = new HashMap<>();
                 priceMap.put(price, 1);
                 finalMap.put(name, priceMap);
-            } else if (price.equals("")) { // !finalMap.get(name).containsKey(price)){
+            } else if (name.equals("") || price == null) { // !finalMap.get(name).containsKey(price)){
                 errorCount++;
             } else {            //(finalMap.get(name).containsKey(price)){
                 Map<String, Integer> priceMap = finalMap.get(name);
@@ -43,7 +43,7 @@ public class Main {
     }
     public static void printMap(Map<String, Map<String, Integer>> input){
         for (String name : input.keySet()) {
-            System.out.println("name: " + name + "          seen: " + input.get(name).size() + " times");
+            System.out.println("name: " + name + "          seen: " + input.get(name).entrySet().size() + " times");
             System.out.println("=============          =============");
             Map<String, Integer> priceMap = input.get(name);
             for (String price : priceMap.keySet()) {
@@ -51,6 +51,7 @@ public class Main {
                 System.out.println("-------------         -------------");
             }
         }
+        System.out.println(errorCount);
     }
 
     public static void main(String[] args) throws Exception{
