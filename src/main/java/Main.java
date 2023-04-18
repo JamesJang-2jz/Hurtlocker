@@ -24,6 +24,9 @@ public class Main {
         while (matcher.find()) {
             String name = matcher.group(1).toLowerCase();
             String price = matcher.group(2);
+            if (name.equals("co0kies")){
+                name = "cookies";
+            }
             if (!finalMap.containsKey(name)) {
                 Map<String, Integer> priceMap = new HashMap<>();
                 priceMap.put(price, 1);
@@ -42,15 +45,23 @@ public class Main {
         return finalMap;
     }
     public static void printMap(Map<String, Map<String, Integer>> input){
+        StringBuilder sb1 = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
         for (String name : input.keySet()) {
-            System.out.println("name: " + name + "          seen: " + input.get(name).entrySet().size() + " times");
-            System.out.println("=============          =============");
+            int count = 0;
             Map<String, Integer> priceMap = input.get(name);
             for (String price : priceMap.keySet()) {
-                System.out.println("Price: " + price + "        seen: " + priceMap.get(price) + " times");
-                System.out.println("-------------         -------------");
+                count += priceMap.get(price);
+                sb1.append("name: " + name + "          seen: " + count + " times\n");
+                sb1.append("=============       =============\n");
+                sb2.append("Price: " + price + "        seen: " + priceMap.get(price) + " times\n");
+                sb2.append("-------------      -------------\n");
             }
+
+
         }
+        System.out.println(sb1);
+        System.out.println(sb2);
         System.out.println(errorCount);
     }
 
