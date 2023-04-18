@@ -50,11 +50,11 @@ public class Main {
         for (String name : input.keySet()) {
             int count = 0;
             Map<String, Integer> priceMap = input.get(name);
+            sb1.append("name: " + name + "          seen: " + priceMap.size() + " times\n");
+            sb1.append("=============       =============\n");
             for (String price : priceMap.keySet()) {
                 count += priceMap.get(price);
-                sb1.append("name: " + name + "          seen: " + count + " times\n");
-                sb1.append("=============       =============\n");
-                sb2.append("Price: " + price + "        seen: " + priceMap.get(price) + " times\n");
+                sb1.append("Price: " + price + "        seen: " + priceMap.get(price) + " times\n");
                 sb2.append("-------------      -------------\n");
             }
 
