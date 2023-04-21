@@ -19,7 +19,7 @@ public class Main {
     }
     public static  Map<String, Map<String,Integer>> splitToMap(String input) { // Split and use regex to add item to map
         Map<String,Map<String,Integer>> finalMap = new LinkedHashMap<>();
-        Pattern regex = Pattern.compile("\\bnaMe:([^\\s;]+);price:([^\\s;]+);", Pattern.CASE_INSENSITIVE);
+        Pattern regex = Pattern.compile("(?i)name:(?i)(c[o0]{2}kies|[^;]+);(?i)price:([^\\\\s;]+)?", Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(input);
         while (matcher.find()) {
             String name = matcher.group(1).toLowerCase();
@@ -31,17 +31,19 @@ public class Main {
                 Map<String, Integer> priceMap = new HashMap<>();
                 priceMap.put(price, 1);
                 finalMap.put(name, priceMap);
+            } else if (name.equals("")){
+                errorCount++;
             } else {            //(finalMap.get(name).containsKey(price)){
                 Map<String, Integer> priceMap = finalMap.get(name);
                 if (!priceMap.containsKey(price)) {
                     priceMap.put(price, 1);
+                } else if (name == null || price == null) { // !finalMap.get(name).containsKey(price)){
+                    errorCount++;
                 } else {
                     priceMap.put(price, priceMap.get(price) + 1);
                 }
             }
-            if (name.length() == 0 || price.length() == 0) { // !finalMap.get(name).containsKey(price)){
-                errorCount++;
-            }
+
         }
         return finalMap;
     }
@@ -57,12 +59,12 @@ public class Main {
                 sb2.append("Price: " + price + "        seen: " + priceMap.get(price) + " times\n");
                 sb2.append("-------------      -------------\n");
             }
-            sb1.append("\nname: " + name + "          seen: " + priceMap.values().stream().mapToInt(Integer::intValue).sum() + " times\n");
+            sb1.append("\nname: " + name + "      seen: " + priceMap.values().stream().mapToInt(Integer::intValue).sum() + " times\n");
             sb1.append("=============       =============\n")
                     .append(sb2);
         }
         System.out.println(sb1);
-        System.out.println("Errors           seen: " + errorCount + " times");
+        System.out.println("Errors             seen: " + errorCount + " times");
     }
 
     public static void main(String[] args) throws Exception{
